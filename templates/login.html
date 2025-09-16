@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bootstrap Login Page</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    
+
+    .card {
+      border-radius: 15px;
+      max-width: 400px;
+      width: 100%;
+    }
+
+    .password-toggle {
+      position: absolute;
+      right: 12px;
+      top: 75%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: #6c757d;
+    }
+
+    .password-toggle:hover {
+      color: #0d6efd;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container d-flex justify-content-center align-items-center vh-100">
+    <div class="card p-4 shadow-lg">
+      <h3 class="text-center mb-4">Login</h3>
+
+      <!-- Flash Messages -->
+      {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+      {% for category, message in messages %}
+      <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      {% endfor %}
+      {% endif %}
+      {% endwith %}
+
+      <form method="POST" action="/login">
+        <!-- User Type Dropdown -->
+        <div class="mb-3">
+          <label for="userType" class="form-label">Login Type</label>
+          <select class="form-select" id="userType" name="userType" required>
+            <option value="" selected disabled>Select Type</option>
+            <option value="admin">Admin</option>
+            <option value="faculty">Faculty</option>
+          </select>
+        </div>
+
+        <!-- Email Input -->
+        <div class="mb-3">
+          <label for="email" class="form-label">Email address</label>
+          <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
+        </div>
+
+        <!-- Password Input with Eye -->
+        <div class="mb-3 position-relative">
+          <label for="password" class="form-label">Password</label>
+          <input type="password" class="form-control" id="password" name="password"
+            placeholder="Enter your password" required>
+          <i class="bi bi-eye-slash password-toggle" id="togglePassword"></i>
+        </div>
+
+        <!-- Login Button -->
+        <button type="submit" class="btn btn-primary w-100">Login</button>
+      </form>
+
+      <!-- Additional Links -->
+      <div class="text-center mt-3">
+        <a href="/forgot" class="text-decoration-none">Forgot password?</a><br>
+        <a href="/register" class="text-decoration-none">Don't have an account? Register</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    // Password Eye Toggle
+    const togglePassword = document.getElementById("togglePassword");
+    const password = document.getElementById("password");
+
+    togglePassword.addEventListener("click", function () {
+      const type = password.getAttribute("type") === "password" ? "text" : "password";
+      password.setAttribute("type", type);
+
+      // Icon Change
+      this.classList.toggle("bi-eye");
+      this.classList.toggle("bi-eye-slash");
+    });
+  </script>
+</body>
+
+</html>

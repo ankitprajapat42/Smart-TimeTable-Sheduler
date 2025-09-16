@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Timetable Scheduler</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+  body {
+    background-color: #f8fafc;
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+  }
+  .navbar-brand { font-weight: 700; }
+
+  /* Main container flex */
+  .main-container {
+    display: flex;
+    min-height: calc(100vh - 56px - 60px); /* navbar + footer */
+  }
+
+  /* Drawer */
+  #filterDrawer {
+    position: fixed;
+    top: 56px;
+    left: 0;
+    width: 300px;
+    height: calc(100vh - 56px);
+    background: #fff;
+    overflow-y: auto;
+    box-shadow: 2px 0 8px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+    z-index: 1050;
+    display: flex;
+    flex-direction: column;
+  }
+  #filterDrawer.closed { transform: translateX(-100%); }
+
+  #drawerContent {
+    padding: 15px;
+    flex-grow: 1;
+  }
+  #drawerContent h5 { font-weight: 600; margin-bottom: 15px; }
+  #filterDrawer select, #filterDrawer button { margin-bottom: 12px; }
+
+  /* Hamburger inside drawer */
+  #hamburgerBtn {
+    position: absolute;
+    top: 10px;
+    right: -45px;
+    width: 40px;
+    height: 40px;
+    background: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 0 5px 5px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    cursor: pointer;
+    box-shadow: 1px 1px 5px rgba(0,0,0,0.1);
+    transition: background 0.3s, transform 0.3s;
+    z-index: 1060;
+  }
+  #hamburgerBtn:hover { background: #f0f0f0; }
+
+  /* Right content */
+  #rightContent {
+    flex-grow: 1;
+    margin-left: 260px;
+    transition: margin-left 0.3s ease;
+    padding: 20px;
+  }
+  #filterDrawer.closed ~ #rightContent { margin-left: 0; }
+
+  /* Timetable table */
+  .timetable th, .timetable td {
+    border: 1px solid #dee2e6;
+    text-align: center;
+    padding: 10px;
+    vertical-align: middle;
+  }
+  .timetable th { background-color: #e9ecef; }
+  .table-responsive { overflow-x: auto; }
+
+  /* Footer */
+  footer {
+    background: #fff;
+    padding: 15px;
+    text-align: center;
+    border-top: 1px solid #dee2e6;
+    color: #6c757d;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    #filterDrawer { width: 220px; }
+    #rightContent { margin-left: 0; padding: 15px; }
+    #hamburgerBtn { top: 10px; right: -40px; width: 35px; height: 35px; font-size: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Smart Timetable Scheduler</a>
+    <div class="d-flex align-items-center">
+      <a href="#" class="btn btn-outline-primary me-2">Faculty</a>
+      <a href="#" class="btn btn-primary">Admin Panel</a>
+    </div>
+  </div>
+</nav>
+
+<div class="main-container">
+  <!-- Drawer -->
+  <div id="filterDrawer">
+    <div id="drawerContent">
+      <h5>Filter Options</h5>
+      <div class="mb-3">
+        <label class="form-label">Course</label>
+        <select class="form-select" id="course">
+          <option>B.Tech</option>
+          <option>Diploma</option>
+          <option>MCA</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Department</label>
+        <select class="form-select" id="department">
+          <option>CSE</option>
+          <option>ECE</option>
+          <option>ME</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Semester</label>
+        <select class="form-select" id="semester">
+          <option>1</option>
+          <option>2</option>
+          <option>3</option>
+          <option>4</option>
+          <option>5</option>
+          <option>6</option>
+        </select>
+      </div>
+      <button class="btn btn-primary w-100 mb-2" id="generate">Generate</button>
+      <button class="btn btn-outline-secondary w-100" id="reset">Reset</button>
+    </div>
+    <!-- Hamburger inside drawer -->
+    <div id="hamburgerBtn">&#9776;</div>
+  </div>
+
+  <!-- Right Content -->
+  <div id="rightContent">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h5 class="card-title">Sample Timetable</h5>
+        <p class="text-muted" id="meta">B.Tech • CSE • Semester 1</p>
+        <div class="table-responsive">
+          <table class="table timetable" id="tt">
+            <thead>
+              <tr>
+                <th>Time</th>
+                <th>Monday</th>
+                <th>Tuesday</th>
+                <th>Wednesday</th>
+                <th>Thursday</th>
+                <th>Friday</th>
+                <th>Saturday</th>
+              </tr>
+            </thead>
+            <tbody id="ttbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  © <span id="year"></span> Smart Timetable Scheduler — All rights reserved.
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+const times = ["08:00 - 09:00","09:00 - 10:00","10:00 - 11:00","11:00 - 12:00","12:30 - 01:30","01:30 - 02:30","02:30 - 03:30","03:30 - 04:30"];
+const subjects = ["Maths","DSA","DBMS","OS","COA","TOC","Software Engg","Elective"];
+
+function buildTable(course, dept, sem){
+  const tbody = document.getElementById('ttbody');
+  tbody.innerHTML = '';
+  for(let i=0;i<times.length;i++){
+    const tr = document.createElement('tr');
+    const th = document.createElement('th');
+    th.textContent = times[i];
+    tr.appendChild(th);
+    for(let d=0; d<6; d++){
+      const td = document.createElement('td');
+      const sub = subjects[(i+d)%subjects.length];
+      td.innerHTML = `<strong>${sub}</strong><div class='text-muted small'>Room ${100 + i + d}</div>`;
+      tr.appendChild(td);
+    }
+    tbody.appendChild(tr);
+  }
+  document.getElementById('meta').textContent = `${course} • ${dept} • Semester ${sem}`;
+}
+
+buildTable('B.Tech','CSE',1);
+document.getElementById('year').textContent = new Date().getFullYear();
+
+// Drawer toggle
+const drawer = document.getElementById('filterDrawer');
+const hamburger = document.getElementById('hamburgerBtn');
+const rightContent = document.getElementById('rightContent');
+
+hamburger.addEventListener('click', ()=>{
+  drawer.classList.toggle('closed');
+  rightContent.style.marginLeft = drawer.classList.contains('closed') ? '0' : '260px';
+  hamburger.innerHTML = drawer.classList.contains('closed') ? '&#9776;' : '&#10006;';
+});
+
+// Generate & Reset buttons
+document.getElementById('generate').addEventListener('click', ()=>{
+  const course = document.getElementById('course').value;
+  const dept = document.getElementById('department').value;
+  const sem = document.getElementById('semester').value;
+  buildTable(course, dept, sem);
+});
+
+document.getElementById('reset').addEventListener('click', ()=>{
+  document.getElementById('course').selectedIndex = 0;
+  document.getElementById('department').selectedIndex = 0;
+  document.getElementById('semester').selectedIndex = 0;
+  buildTable('B.Tech','CSE',1);
+});
+</script>
+</body>
+</html>

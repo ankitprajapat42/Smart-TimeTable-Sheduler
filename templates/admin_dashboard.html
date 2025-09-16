@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - Time Table Scheduler</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+    .sidebar {
+      height: 100vh;
+      background: #212529;
+      color: white;
+      position: fixed;
+      width: 240px;
+      transition: 0.3s;
+    }
+    .sidebar a {
+      color: #ddd;
+      text-decoration: none;
+      display: block;
+      padding: 12px 20px;
+      transition: 0.3s;
+    }
+    .sidebar a:hover {
+      background: #343a40;
+      color: #fff;
+    }
+    .content {
+      margin-left: 240px;
+      padding: 20px;
+      transition: 0.3s;
+    }
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 200px;
+        position: absolute;
+        z-index: 1000;
+      }
+      .content {
+        margin-left: 0;
+      }
+    }
+    .card {
+      border-radius: 15px;
+    }
+    .profile-img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <div class="sidebar p-3">
+    <h4 class="text-center mb-4">Admin Panel</h4>
+    <a href="#"><i class="fa-solid fa-gauge me-2"></i> Dashboard</a>
+    <a href="#"><i class="fa-solid fa-user-tie me-2"></i> Faculty</a>
+    <a href="#"><i class="fa-solid fa-users me-2"></i> Students</a>
+    <a href="#"><i class="fa-solid fa-school me-2"></i> Classrooms</a>
+    <a href="#"><i class="fa-solid fa-calendar-days me-2"></i> Timetable</a>
+    <a href="#"><i class="fa-solid fa-gear me-2"></i> Settings</a>
+    <a href="#" class="text-danger"><i class="fa-solid fa-right-from-bracket me-2"></i> Logout</a>
+  </div>
+
+  <!-- Content -->
+  <div class="content">
+    <!-- Top Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm rounded mb-4">
+      <div class="container-fluid">
+        <h5 class="mb-0">Dashboard - Time Table Scheduler</h5>
+        <div class="d-flex align-items-center">
+          <span class="me-2 fw-bold">Admin</span>
+          <img src="https://i.pravatar.cc/50" alt="Admin Profile" class="profile-img">
+        </div>
+      </div>
+    </nav>
+
+    <!-- Dashboard Stats -->
+    <div class="row g-4">
+      <div class="col-md-3 col-sm-6">
+        <div class="card shadow-sm p-3 text-center">
+          <i class="fa-solid fa-user-tie fa-2x text-primary mb-2"></i>
+          <h6>Total Faculty</h6>
+          <h4>25</h4>
+        </div>
+      </div>
+      <div class="col-md-3 col-sm-6">
+        <div class="card shadow-sm p-3 text-center">
+          <i class="fa-solid fa-users fa-2x text-success mb-2"></i>
+          <h6>Total Students</h6>
+          <h4>500</h4>
+        </div>
+      </div>
+      <div class="col-md-3 col-sm-6">
+        <div class="card shadow-sm p-3 text-center">
+          <i class="fa-solid fa-school fa-2x text-warning mb-2"></i>
+          <h6>Classrooms</h6>
+          <h4>30</h4>
+        </div>
+      </div>
+      <div class="col-md-3 col-sm-6">
+        <div class="card shadow-sm p-3 text-center">
+          <i class="fa-solid fa-calendar-check fa-2x text-danger mb-2"></i>
+          <h6>Scheduled Classes</h6>
+          <h4>120</h4>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Timetable -->
+    <div class="card shadow-sm mt-4">
+      <div class="card-header bg-white">
+        <h6 class="mb-0">Recent Timetable Entries</h6>
+      </div>
+      <div class="card-body">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Faculty</th>
+              <th>Subject</th>
+              <th>Classroom</th>
+              <th>Time</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Dr. Sharma</td>
+              <td>Maths</td>
+              <td>Room 101</td>
+              <td>10:00 AM</td>
+              <td>16 Sep 2025</td>
+            </tr>
+            <tr>
+              <td>Prof. Gupta</td>
+              <td>Physics</td>
+              <td>Room 202</td>
+              <td>12:00 PM</td>
+              <td>16 Sep 2025</td>
+            </tr>
+            <tr>
+              <td>Mr. Verma</td>
+              <td>Computer Science</td>
+              <td>Lab 1</td>
+              <td>2:00 PM</td>
+              <td>16 Sep 2025</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>
