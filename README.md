@@ -3,55 +3,57 @@
 ## 🚀 How to Run
 
 ### 1️⃣ Clone this Repository
-```bash 
-git clone https://github.com/your-username/your-repo-name.git``
+```bash
+git clone https://github.com/your-username/your-repo-name.git
 cd your-repo-name
+```
 2️⃣ Install Requirements
+
 Make sure Python 3.9+ is installed.
 Install the required packages:
-
-bash
-Copy code
+```
 pip install -r requirements.txt
-requirements.txt includes:
+```
 
-nginx
-Copy code
+requirements.txt includes:
+```
 Flask
 firebase-admin
 requests
+```
 3️⃣ Firebase Setup
+
 Go to Firebase Console → Project Settings → Service Accounts
 
 Click Generate new private key and download the JSON file
 
 Save the file in your project folder as:
 
-pgsql
-Copy code
+```
 serviceAccountKey.json
-4️⃣ Run the Flask App
-bash
-Copy code
+```
+
+Run the Flask App
+```
 python app.py
+```
 You will see:
-
-csharp
-Copy code
+```
  * Running on http://127.0.0.1:5000/
-✅ Now open your browser and go to:
+```
+🌐 Open in Browser
 
-Home → http://127.0.0.1:5000/
+🏠 Home → http://127.0.0.1:5000/
 
-Register → /register
+📝 Register → /register
 
-Login → /login
+🔑 Login → /login
 
-Forgot Password → /forgot
+📩 Forgot Password → /forgot
 
-Admin Dashboard → /admin/dashboard
+🛠 Admin Dashboard → /admin/dashboard
 
-Faculty Dashboard → /faculty/dashboard
+🎓 Faculty Dashboard → /faculty/dashboard
 
-yaml
-Copy code
+
+
