@@ -4,7 +4,7 @@
 
 ### 1️⃣ Clone this Repository
 ```bash
-git clone https://github.com/your-username/your-repo-name.git
+git clone https://github.com/ankitprajapat42/Smart-TimeTable-Sheduler.git
 cd your-repo-name
 ```
 2️⃣ Install Requirements
